@@ -1,88 +1,90 @@
-import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import Layout from '../components/Layout'
 
-const Home = () => (
-  <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+import { styled } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Grid from '@material-ui/core/Grid'
 
-    <Nav />
+import { motion } from 'framer-motion'
 
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
+const Container = styled(motion.div)({
+	width: 200,
+	height: 200,
+	padding: 15,
+	borderRadius: 50,
+	background: 'rgba(255, 255, 255, 0.5)',
+	lineHeight: 0,
+})
 
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
-      </div>
-    </div>
+const Item = styled(motion.div)({
+	width: 75,
+	height: 75,
+	margin: 5,
+	borderRadius: '100%',
+	backgroundColor: '#FFFFFF',
+	display: 'inline-block',
+})
 
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
+const containerVariants = {
+	hidden: {
+		opacity: 0, scale: 0, rotate: 60,
+	},
+	visible: {
+		opacity: 1, scale: 1, rotate: 0,
+		transition: {
+			delay: 0.7,
+			duration: 0.2,
+			when: 'beforeChildren',
+			staggerChildren: 0.1,
+		}
+	},
+}
 
-export default Home
+const itemVariants = {
+	hidden: {
+		opacity: 0, y: 20,
+	},
+	visible: {
+		opacity: 1, y: 0,
+	},
+}
+
+const MainTypography = styled(Typography)({
+	color: '#FFFFFF',
+})
+
+const Index = () => (
+	<Layout>
+		<Grid container item
+				xs={12} md={6} lg={5} xl={4}
+				spacing={4}
+				alignItems='center'
+				justify='center'
+				alignContent='center'
+		>
+			<Grid item>
+				<Container
+						variants={containerVariants}
+						initial='hidden'
+						animate='visible'
+				>
+					{[0, 1, 2, 3].map(index => (
+						<Item key={index} variants={itemVariants} />
+					))}
+				</Container>	
+			</Grid>
+			<Grid item>
+				<motion.div
+					initial={{ opacity: 0, }}
+					animate={{ opacity: 1, }}
+					transition={{ delay: 1.5 }}
+				>
+					<MainTypography variant='h4'>
+						YourWebApp
+					</MainTypography>
+				</motion.div>
+			</Grid>
+		</Grid>
+	</Layout>
+);
+
+export default Index
